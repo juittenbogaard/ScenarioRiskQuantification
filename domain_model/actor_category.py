@@ -58,7 +58,7 @@ class ActorCategory(PhysicalElementCategory):
     only describes the actor in qualitative terms.
 
     Attributes:
-        vehicle_type (VehicleType): The type of the actor. This should be from
+        actor_type (VehicleType): The type of the actor. This should be from
             the enumeration VehicleType.
         name (str): A name that serves as a short description of the actor
             category.
@@ -67,12 +67,12 @@ class ActorCategory(PhysicalElementCategory):
             category comprises a scenario.
         description(str): A string that qualitatively describes this actor.
     """
-    def __init__(self, vehicle_type: VehicleType, **kwargs):
+    def __init__(self, actor_type: VehicleType, **kwargs):
         # Check the types of the inputs
-        check_for_type("vehicle_type", vehicle_type, VehicleType)
+        check_for_type("actor_type", actor_type, VehicleType)
 
         PhysicalElementCategory.__init__(self, **kwargs)
-        self.vehicle_type = vehicle_type  # type: VehicleType
+        self.actor_type = actor_type  # type: VehicleType
 
     def to_json(self) -> dict:
         """ Get JSON code of object.
@@ -84,12 +84,12 @@ class ActorCategory(PhysicalElementCategory):
         :return: dictionary that can be converted to a json file.
         """
         actor_category = PhysicalElementCategory.to_json(self)
-        actor_category["vehicle_type"] = self.vehicle_type.to_json()
+        actor_category["actor_type"] = self.actor_type.to_json()
         return actor_category
 
 
 def _actor_category_props_from_json(json: dict) -> dict:
-    props = dict(vehicle_type=vehicle_type_from_json(json["vehicle_type"]))
+    props = dict(actor_type=actor_type_from_json(json["actor_type"]))
     props.update(_physical_element_category_props_from_json(json))
     return props
 
@@ -114,7 +114,7 @@ def actor_category_from_json(json: dict, attribute_objects: DMObjects = None) ->
     return _object_from_json(json, _actor_category_from_json, "actor_category", attribute_objects)
 
 
-def vehicle_type_from_json(json: dict) -> VehicleType:
+def actor_type_from_json(json: dict) -> VehicleType:
     """ Get VehicleType object from JSON code.
 
     It is assumed that the JSON code of the VehicleType is created using
