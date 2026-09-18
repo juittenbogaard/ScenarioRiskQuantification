@@ -12,6 +12,7 @@ Modifications:
 from typing import List
 import numpy as np
 from .acc import ACCParameters
+from .acc_aeb import ACCAEBParameters
 from .acc_idmplus import ACCIDMPlusParameters
 from .idm import IDMParameters
 from .idmplus import IDMPlus
@@ -32,6 +33,27 @@ def acc_approaching_pars(**kwargs):
         if parm in kwargs:
             parms[parm] = kwargs[parm]
     return ACCParameters(speed=kwargs["vego"],
+                         init_speed=kwargs["vego"],
+                         init_position=INIT_POSITION_FOLLOWER,
+                         n_reaction=0,
+                         cruise_after_collision=True,
+                         **parms)
+
+def accaeb_approaching_pars(**kwargs):
+    """ Define the ACC parameters in an approaching scenario.
+
+    :return: Parameter object that can be passed via init_simulation.
+    """
+    parms = dict()
+    if "amin" in kwargs:
+        amin = kwargs["amin"]
+    else:
+        # amin = -10
+        parms["amin"] = -10
+    for parm in ["sensor_range", "k1_acc", "k2_acc", "k_cruise","aeb_threshold","max_decel"]:
+        if parm in kwargs:
+            parms[parm] = kwargs[parm]
+    return ACCAEBParameters(speed=kwargs["vego"],
                          init_speed=kwargs["vego"],
                          init_position=INIT_POSITION_FOLLOWER,
                          n_reaction=0,

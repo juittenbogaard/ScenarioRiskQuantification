@@ -91,29 +91,39 @@ class SimulationString(Simulator):
                 break
 
         if plot:
-            _, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(10, 5))
+            _, ((ax1, ax2), (ax3, ax4),(ax5, ax6)) = plt.subplots(3, 2, figsize=(10, 7))
             data = np.array(data)
             time = np.arange(len(data)) * self.vehicles[1].parms.timestep
             for i in range(len(self.vehicles)-1):
                 ax1.plot(time, data[:, i, 0] - data[:, i+1, 0], label="{:d}-{:d}".format(i+1, i+2))
                 ax3.plot(time, (data[:, i, 0] - data[:, i+1, 0]) / data[:, i+1, 1],
                          label="{:d}-{:d}".format(i+1, i+2))
+                ax5.plot(time, (data[:, i, 0] - data[:, i+1, 0]) / (data[:, i+1, 1] -data[:, i, 1]),
+                         label="{:d}-{:d}".format(i+1, i+2))
             for i in range(len(self.vehicles)):
                 ax2.plot(time, data[:, i, 1]*3.6, label="Vehicle {:d}".format(i+1))
                 ax4.plot(time, data[:, i, 2], label="Vehicle {:d}".format(i+1))
             ax1.set_xlabel("Time [s]")
             ax1.set_ylabel("Distance [m]")
+            ax1.grid()
             ax1.legend()
             ax2.set_xlabel("Time [s]")
             ax2.set_ylabel("Speed [km/h]")
+            ax2.grid()
             ax2.legend()
             ax3.set_xlabel("Time [s]")
             ax3.set_ylabel("THW [s]")
-            ax3.set_ylim(-.5, 2)
+            ax3.grid()
+            ax3.set_ylim(0, 2)
             ax3.legend()
             ax4.set_xlabel("Time [s]")
             ax4.set_ylabel("Acceleration [m/s$^2$]")
+            ax4.grid()
             ax4.legend()
+            ax5.set_xlabel("Time [s]")
+            ax5.set_ylabel("TTC [s]")
+            ax5.grid()
+            ax5.set_ylim(0, 5)
             plt.tight_layout()
 
         main_result = np.array([minttcs[i] if mindistances[i] > 0 else -impact_speeds[i]
