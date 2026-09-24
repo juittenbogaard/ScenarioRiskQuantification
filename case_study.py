@@ -70,7 +70,7 @@ def monte_carlo(options, overwrite=False):
 
 def mc_result(df_mc):
     print("Monte Carlo:")
-    collision = (df_mc["result"] < 0).astype(np.float)
+    collision = (df_mc["result"] < 0).astype(float)
     prob = np.mean(collision)
     sigma = np.sqrt(np.sum((collision - prob)**2)) / len(df_mc)
     print("  Probability of collision: {:.2e} +/- {:.2e}".format(prob, sigma))
