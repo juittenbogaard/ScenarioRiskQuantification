@@ -33,6 +33,12 @@ class ACCAEB(ACC):
 
         self.nstep = 0
 
+    def init_simulation(self, parms: ACCAEBParameters) -> None:
+        ACC.init_simulation(self, parms)
+        self.parms.aeb_threshold = parms.aeb_threshold
+        self.parms.max_decel = parms.max_decel
+        self.state.aeb = False
+
     def acceleration(self, gap: float, vhost: float, vdiff: float) -> float:
         """ Compute the acceleration based on the gap, vhost, vdiff.
 
