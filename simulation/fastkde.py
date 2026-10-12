@@ -189,7 +189,7 @@ class KDE:
             self.weights = True
             if isinstance(weights, List):
                 weights = np.array(weights)
-            if weights.dtype not in [np.int, np.int64]:
+            if not np.issubdtype(weights.dtype, np.integer):
                 raise TypeError("Weights must be integers but are of type '{0}'.".
                                 format(weights.dtype))
             self.data_helpers.weights = weights
@@ -258,7 +258,7 @@ class KDE:
             raise ValueError("Cannot do clustering with weighted data.")
 
         # Do the clustering.
-        clusters, counts = np.unique(np.round(self.data / maxdist / 2).astype(np.int),
+        clusters, counts = np.unique(np.round(self.data / maxdist / 2).astype(int),
                                      axis=0, return_counts=True)
         clusters = clusters * (2 * maxdist)
 
@@ -917,7 +917,7 @@ class KDE:
         if self.weights:
             marginal_prob *= self.data_helpers.weights[:self.constants.ndata]
         marginal_prob /= np.sum(marginal_prob)
-        i = np.ones(self.constants.dim, dtype=np.bool)
+        i = np.ones(self.constants.dim, dtype=bool)
         i[i_given] = False
         means = np.random.choice(np.arange(self.constants.ndata), size=n_samples, replace=True,
                                  p=marginal_prob)  # This gives just the indices.
@@ -997,7 +997,7 @@ class KDE:
 
         # Create data points for which the cdf should be obtained.
         points = np.zeros((2**self.constants.dim, self.constants.dim))
-        multipliers = np.zeros(2**self.constants.dim, dtype=np.int)
+        multipliers = np.zeros(2**self.constants.dim, dtype=int)
         i_point = 0
         multiplier = 1
         for i in range(self.constants.dim+1):

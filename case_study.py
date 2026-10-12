@@ -48,7 +48,8 @@ def do_simulations(df, pars, options):
     for i, par in enumerate(tqdm(pars)):
         par_dict = dict(zip(options.parameters, par))
         par_dict.update(options.default_parameters)
-        result[i] = options.simulator.simulation(par_dict)
+        sim_result = np.asarray(options.simulator.simulation(par_dict), dtype=float)
+        result[i] = float(np.min(sim_result)) if sim_result.size > 0 else 0.0
         kpi[i] = options.func_process_result(result[i])
     df["result"] = result
     df["kpi"] = kpi

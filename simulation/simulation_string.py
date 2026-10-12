@@ -47,7 +47,7 @@ class SimulationString(Simulator):
         if seed is not None:
             np.random.seed(seed)
         if ignore_stop is None:
-            ignore_stop = np.zeros(len(self.vehicles)-1, dtype=np.bool)
+            ignore_stop = np.zeros(len(self.vehicles)-1, dtype=bool)
         self.init_simulation(**parameters)
         time = 0
 
