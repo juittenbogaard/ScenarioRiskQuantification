@@ -45,12 +45,8 @@ def accaeb_approaching_pars(**kwargs):
     :return: Parameter object that can be passed via init_simulation.
     """
     parms = dict()
-    if "amin" in kwargs:
-        amin = kwargs["amin"]
-    else:
-        # amin = -10
-        parms["amin"] = -10
-    for parm in ["sensor_range", "k1_acc", "k2_acc", "k_cruise","aeb_threshold","max_decel"]:
+
+    for parm in ["amin", "sensor_range", "k1_acc", "k2_acc", "k_cruise","aeb_threshold","max_decel"]:
         if parm in kwargs:
             parms[parm] = kwargs[parm]
     return ACCAEBParameters(speed=kwargs["vego"],
@@ -66,11 +62,7 @@ def acc_idm_approaching_pars(**kwargs):
 
     :return: Parameter object that can be passed via init_simulation.
     """
-    if "amin" in kwargs:
-        amin = kwargs["amin"]
-    else:
-        amin = -10
-        kwargs["amin"] = amin
+    amin = kwargs["amin"] if "amin" in kwargs else -10
     parms = dict()
     for parm in ["k1_acc", "k2_acc"]:
         if parm in kwargs:

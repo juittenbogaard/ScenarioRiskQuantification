@@ -11,6 +11,8 @@ Modifications:
 """
 
 import numpy as np
+
+from simulation.acc_aeb import ACCAEBParameters
 from .acc import ACC, ACCParameters
 from .acc_idmplus import ACCIDMPlus, ACCIDMPlusParameters
 from .idm import IDM, IDMParameters
@@ -66,6 +68,28 @@ def acc_lead_braking_pars(**kwargs):
     thw = default_parameters.thw
     init_distance = safety_distance + init_speed * thw
     parameters = ACCParameters(speed=init_speed,
+                               init_speed=init_speed,
+                               init_position=-init_distance,
+                               n_reaction=0,
+                               **parms)
+    return parameters
+
+def accaeb_lead_braking_pars(**kwargs):
+    """ Define the ACC parameters of the follower based on scenario parameters.
+
+    :return: Parameter object that can be passed via init_simulation.
+    """
+    parms = dict()
+
+    for parm in ["amin", "sensor_range", "k1_acc", "k2_acc", "k_cruise","aeb_threshold","max_decel"]:
+        if parm in kwargs:
+            parms[parm] = kwargs[parm]
+    init_speed = kwargs["v0"]
+    safety_distance = ACC.safety_distance(init_speed)
+    default_parameters = ACCParameters()
+    thw = default_parameters.thw
+    init_distance = safety_distance + init_speed * thw
+    parameters = ACCAEBParameters(speed=init_speed,
                                init_speed=init_speed,
                                init_position=-init_distance,
                                n_reaction=0,

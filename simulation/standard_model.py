@@ -15,7 +15,7 @@ from .options import Options
 class StandardParameters(Options):
     """ Default parameters. """
     # pylint: disable=too-many-instance-attributes
-    amin: float = -6  # [m/s^2] Minimum acceleration
+    amin: float = -10  # [m/s^2] Minimum acceleration
     speed: float = 30  # [m/s] Desired speed
     thw: float = 1.1  # [s] Desired THW
     n_reaction: int = 0  # Custom parameter (samples of delay)
