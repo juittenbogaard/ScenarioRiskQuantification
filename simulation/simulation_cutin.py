@@ -8,6 +8,7 @@ Modifications:
 
 import numpy as np
 from .acc import ACCParameters
+from .acc_aeb import ACCAEBParameters
 from .acc_idmplus import ACCIDMPlusParameters
 from .idm import IDMParameters
 from .idmplus import IDMPlus
@@ -58,6 +59,20 @@ def acc_cutin_pars(**kwargs):
                          n_reaction=0,
                          **parms)
 
+def accaeb_cutin_pars(**kwargs):
+    """ Define the ACC parameters in a cut-in scenario.
+
+    :return: Parameter object that can be passed via init_simulation.
+    """
+    parms = dict()
+    for parm in ["amin", "sensor_range", "k1_acc", "k2_acc", "k_cruise","aeb_threshold","max_decel"]:
+        if parm in kwargs:
+            parms[parm] = kwargs[parm]
+    return ACCAEBParameters(speed=kwargs["vego"],
+                         init_speed=kwargs["vego"],
+                         init_position=-kwargs["dinit"],
+                         n_reaction=0,
+                         **parms)
 
 def acc_idm_cutin_pars(**kwargs):
     """ Define the parameters for the ACCIDM model.
